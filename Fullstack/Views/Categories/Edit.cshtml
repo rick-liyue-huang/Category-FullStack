@@ -1,9 +1,41 @@
 @using Fullstack.Models;
 @model Category
 
-<html>
-  <body>
-    <h3>Category: @Model.CategoryId</h3>
-    
-  </body>
-</html>
+@section title {
+  @if (Model != null)
+  {
+    <h2>Edit Category: @Model.Name</h2>
+  }
+  else
+  {
+    <h2>Create New Category</h2>
+  }
+}
+
+
+<form method="post" asp-controller="Categories" asp-action="Edit">
+  <input type="hidden" asp-for="CategoryId" />
+  @* If the CategoryId is not set, it will be 0, indicating a new category *@
+  <div class="row mb-3">
+    <div class="col-2">
+      <label asp-for="Name" class="col-form-label">Name</label>
+    </div>
+    <div class="col-6">
+      <input type="text" asp-for="Name" class="form-control" />
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-2">
+      <label asp-for="Description" class="col-form-label">Description</label>
+    </div>
+    <div class="col-6">
+      <input type="text" asp-for="Description" class="form-control" />
+    </div>
+  </div>
+  <div class="row mb-3"></div>
+    <div class="col-2">
+      <input type="submit" class="btn btn-primary" value="Save" />
+    </div>
+    <div class="col-6"></div>
+  </div>
+</form>

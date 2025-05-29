@@ -3,31 +3,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fullstack.Controllers
 {
-    public class CategoriesController : Controller
+  public class CategoriesController : Controller
+  {
+    // GET: CategoryController
+    public IActionResult Index()
     {
-        // GET: CategoryController
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Edit(int? id)
-        {
-          if (id.HasValue)
-          {
-              // return new ContentResult {Content = id.ToString()};
-              var category = new Category
-              {
-                  CategoryId = id.HasValue ? id.Value : 0,
-              };
-              return View(category);
-          }
-          else
-          {
-              return new ContentResult {Content = "No ID provided"};
-          }
-          
-        }
-
+      var categories = CategoriesRepository.GetCategories();
+      return View(categories);
     }
+
+    [HttpGet]
+    public IActionResult Edit(int? id)
+    {
+      var category = id.HasValue ? CategoriesRepository.GetCategoryById(id.Value) : new Category();
+      if (category == null)
+      {
+        return NotFound();
+      }
+      return View(category);
+    }
+
+
+    [HttpPost]
+    public IActionResult Edit(Category category)
+    {
+      CategoriesRepository.UpdateCategory(category.CategoryId, category);
+      return RedirectToAction(nameof(Index));
+    }
+  }
 }

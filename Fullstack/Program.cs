@@ -18,7 +18,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.MapStaticAssets(); // access the wwwroot folder
 
 app.MapControllerRoute(
     name: "default",
